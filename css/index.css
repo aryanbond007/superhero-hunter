@@ -1,0 +1,147 @@
+/* Font  family for whole project */
+* {
+  font-family: "Nunito", sans-serif;
+}
+.search-section,
+.fav-section,
+.about-sec {
+  background: #ececee;
+}
+.search-container {
+  width: 500px !important;
+  padding: 50px;
+}
+body{
+  /* box-sizing: border-box; */
+}
+section{
+  background: rgb(116,127,129);
+  background: linear-gradient(159deg, rgba(116,127,129,1) 0%, rgba(186,28,28,0.9556197478991597) 40%, rgba(40,39,41,1) 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  height: 100%;
+ 
+  
+}
+#superhero-list:hover{
+  background-position: 100% 100%;
+  animation: up-bump 0.4s ease;
+
+}
+.btn btn-light  btn-sm>a:hover{
+  color: rgb(95, 12, 12)!important;
+}
+
+.result-section {
+  background-color: #ececee;
+}
+.result-section h2 {
+  text-align: center;
+  padding: 20px 0px;
+}
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+/*  Alert type box displaying in the bottom of the screen */
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+.favorite-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none; /* Remove the button outline */
+}
+
+.heart {
+  color: grey;
+  transition: color 0.3s ease;
+}
+
+.heart.red {
+  color: red;
+}
+
+h4{
+  color: rgba(71, 216, 204, 0.651);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  padding-top: 5px;
+  
+  
+}
+
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+/*  Mobile Responsive  */
+@media only screen and (max-width: 768px) {
+  .search-container {
+    width: 100%!important;
+    padding: 50px;
+  }
+
+  div#superhero {
+    width: 100%;
+  }
+}
