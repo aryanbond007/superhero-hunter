@@ -4,87 +4,97 @@
   Hash (md5) - 14caeed5d172dcf9684284e3bc9cc53b
  */
 
-//  Get Id from HTML File, & Search query with HTTP Request, then parse it
-var xhrRequest = new XMLHttpRequest();
-xhrRequest.open(
-  "get",
-  "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=ec3ed12af10e2e4d8375e3ff29c931cb&hash=14caeed5d172dcf9684284e3bc9cc53b",
-  true
-);
-xhrRequest.send();
-xhrRequest.onload = function () {
-  var allCharacters = JSON.parse(xhrRequest.responseText);
-  console.log(allCharacters.data.results);
-  getAllCharactersList(allCharacters.data.results);
-};
+const apiUrl = "https://gateway.marvel.com/v1/public/characters";
+const apiKey = "ec3ed12af10e2e4d8375e3ff29c931cb";
+const timestamp = 1;
+const hash = "14caeed5d172dcf9684284e3bc9cc53b";
+
+const url = `${apiUrl}?ts=${timestamp}&apikey=${apiKey}&hash=${hash}`;
+
+fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data.data.results);
+    getAllCharactersList(data.data.results);
+  })
+  .catch(error => {
+    console.error("Fetch error:", error);
+  });
+
+
 
 document.getElementById("search-form").addEventListener("keyup", function () {
   var url = getUrl();
-  var xhrRequest = new XMLHttpRequest();
-  xhrRequest.open("get", url, true);
-  xhrRequest.send();
-  xhrRequest.onload = function () {
-    var data = JSON.parse(xhrRequest.responseText);
-    display(data);
-  };
-});
-// document.getElementById("search-btn").addEventListener("click", function () {
-//   var url = getUrl();
-//   var xhrRequest = new XMLHttpRequest();
-//   xhrRequest.open("get", url, true);
-//   xhrRequest.send();
-//   xhrRequest.onload = function () {
-//     var data = JSON.parse(xhrRequest.responseText);
-//     display(data);
-//   };
-// });
 
-//This function display  all characters data.
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      display(data);
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+    });
+});
 
 function getAllCharactersList(results) {
-  //  Get Canvas
-  let canvas = document.getElementById("canvas");
-
-  // Get Search String
-  let searchHero = document.getElementById("search-string").value;
-  var superHeroList = document.getElementById("superhero-list");
+  const canvas = document.getElementById("canvas");
+  const superHeroList = document.getElementById("superhero-list");
   superHeroList.innerHTML = "";
 
-  for (let result of results) {
-    var templateCanvas = canvas.content.cloneNode(true);
+  // Defining event listener function for the "about" action
+  function handleAboutClick(result) {
+    localStorage.setItem("id", result.id);
+    window.location.assign("./about.html");
+  }
 
-    //  Get all ids of  image and name  of html element and change its text.
-    templateCanvas.getElementById(
-      "my-img"
-    ).src = `${result.thumbnail.path}.${result.thumbnail.extension}`;
+  // Defining event listener function for the "fav" action
+  function handleFavClick(result) {
+    const index = localStorage.length;
+    const data = JSON.stringify(result);
+    localStorage.setItem(result.id, data);
+  }
+
+  for (const result of results) {
+    const templateCanvas = canvas.content.cloneNode(true);
+
+    templateCanvas.getElementById("my-img").src = `${result.thumbnail.path}.${result.thumbnail.extension}`;
     templateCanvas.getElementById("name").innerHTML = result.name;
-    templateCanvas
-      .getElementById("about")
-      .addEventListener("click", function () {
-        localStorage.setItem("id", result.id);
-        window.location.assign("./about.html");
-      });
 
-    //  EventListner for  favorite button, and set its data to local storage.
-    templateCanvas.getElementById("fav").addEventListener("click", function () {
-      var index = localStorage.length;
-      var data = JSON.stringify(result);
-      localStorage.setItem(result.id, data);
+    // Attaching the "about" click event outside the loop
+    templateCanvas.getElementById("about").addEventListener("click", function () {
+      handleAboutClick(result);
     });
+
+    // Attaching the "fav" click event outside the loop
+    templateCanvas.getElementById("fav").addEventListener("click", function () {
+      handleFavClick(result);
+    });
+
     superHeroList.appendChild(templateCanvas);
   }
 }
 
-// Get the URL from  API
+
+// Getting the URL from  API
 function getUrl() {
   // From Id I'll get value.
   var searchQuery = document.getElementById("search-string").value;
 
   //  If search query matches the results then it will redirect to searched hero otherwise moved to home page.
   if (!searchQuery) {
-    return "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=14fc6f1b55d22345494bda7902df431f&hash=e9574d69c8e2df30fe7cf289122c7223";
+    return "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=ec3ed12af10e2e4d8375e3ff29c931cb&hash=14caeed5d172dcf9684284e3bc9cc53b";
   } else {
-    return `https://gateway.marvel.com/v1/public/characters?nameStartsWith=${searchQuery}&ts=1&apikey=14fc6f1b55d22345494bda7902df431f&hash=e9574d69c8e2df30fe7cf289122c7223`;
+    return `https://gateway.marvel.com/v1/public/characters?nameStartsWith=${searchQuery}&ts=1&apikey=ec3ed12af10e2e4d8375e3ff29c931cb&hash=14caeed5d172dcf9684284e3bc9cc53b`;
   }
 }
 
@@ -97,12 +107,12 @@ function display(data) {
   var superHeroList = document.getElementById("superhero-list");
   var results = data.data.results;
 
-  //if array list is empty message will show
+  //if array list is empty, the message will show
   if (results.length === 0) {
     superHeroList.innerHTML = "<b>No Super Hero To Display</b>";
   }
 
-  //otherwise display the superheros from list.
+  //otherwise displaying the superheros from list.
   else {
     superHeroList.innerHTML = "";
 
@@ -110,7 +120,7 @@ function display(data) {
     for (let result of results) {
       var templateCanvas = canvas.content.cloneNode(true);
 
-      //  Get all the elemets from id and then changes its Inner HTMl
+      //  Getting all the elemets from id and then changing its Inner HTML
       templateCanvas.getElementById(
         "my-img"
       ).src = `${result.thumbnail.path}.${result.thumbnail.extension}`;
@@ -124,7 +134,7 @@ function display(data) {
           window.location.assign("./about.html");
         });
 
-      //  EventListener for  about button
+      //  EventListener for add to favourites button
       templateCanvas
         .getElementById("fav")
         .addEventListener("click", function () {
@@ -143,5 +153,5 @@ function addFunction() {
   x.className = "show";
   setTimeout(function () {
     x.className = x.className.replace("show", "");
-  }, 3000);
+  }, 2500);
 }

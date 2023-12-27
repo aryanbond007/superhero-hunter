@@ -23,24 +23,39 @@ function fetchData() {
       "<b>Hero ID: </b> " + response.data.results[0].id;
     document.getElementById("desc").innerHTML =
       "<b>Description: </b> " + response.data.results[0].description;
-    document.getElementById("comic").innerHTML =
+      document.getElementById("comic").innerHTML =
       "<b>Comic Available: </b>" + response.data.results[0].comics.available;
-    document.getElementById("series").innerHTML =
-      "<b>Series Available: </b>" + response.data.results[0].series.available;
-    document.getElementById("stories").innerHTML =
-      "<b>Stories Available: </b>" + response.data.results[0].stories.available;
-    document.getElementById("count").innerHTML =
-      "<b>Count: </b>" + response.data.count;
-    document.getElementById("modified").innerHTML =
-      "<b>Modified: </b>" + response.data.results[0].modified;
-    document.getElementById("status").innerHTML =
-      "<b>Status: </b>" + response.status;
-    document.getElementById("total").innerHTML =
-      "<b>Total: </b>" + response.data.total;
-    document.getElementById("limit").innerHTML =
-      "<b>Limit: </b>" + response.data.limit;
-    document.getElementById("offset").innerHTML =
-      "<b>Offset: </b>" + response.data.offset;
-    document.getElementById("code").innerHTML = "<b>Code: </b>" + response.code;
-  };
-}
+
+    };
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    
